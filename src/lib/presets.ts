@@ -1,0 +1,228 @@
+import { StoredWorkflow } from '@/types/workflow';
+
+export const PRESET_WORKFLOWS: StoredWorkflow[] = [
+  {
+    id: 'support-sales-triage',
+    name: 'Customer Support vs Sales Triage',
+    description: 'Routes incoming tickets to P1 On-Call, Tier 1 Support, Enterprise Sales, or Self-Serve.',
+    defaultInput: 'Our production database is throwing 500 internal server errors and users cannot log in! This is critical and impacting all customers.',
+    nodes: [
+      {
+        id: 'node-1',
+        type: 'decisionNode',
+        position: { x: 380, y: 50 },
+        data: {
+          label: 'Inquiry Classification',
+          prompt: 'Is this inquiry a customer support request, technical bug, or error report?',
+          isStartNode: true,
+          status: 'idle',
+        },
+      },
+      {
+        id: 'node-2',
+        type: 'decisionNode',
+        position: { x: 140, y: 240 },
+        data: {
+          label: 'Severity Assessment',
+          prompt: 'Is this a critical production outage, high urgency, or system down emergency?',
+          status: 'idle',
+        },
+      },
+      {
+        id: 'node-3',
+        type: 'decisionNode',
+        position: { x: 620, y: 240 },
+        data: {
+          label: 'Sales Intent Check',
+          prompt: 'Is the customer inquiring about enterprise pricing, custom contracts, or team deployment?',
+          status: 'idle',
+        },
+      },
+      {
+        id: 'node-4',
+        type: 'actionNode',
+        position: { x: 20, y: 440 },
+        data: {
+          label: 'P1 Incident Escalation',
+          action: 'Page Senior On-Call Engineer & notify incident channel immediately',
+          status: 'idle',
+        },
+      },
+      {
+        id: 'node-5',
+        type: 'actionNode',
+        position: { x: 260, y: 440 },
+        data: {
+          label: 'Tier 1 Support Queue',
+          action: 'Create Zendesk ticket and send standard troubleshooting guide',
+          status: 'idle',
+        },
+      },
+      {
+        id: 'node-6',
+        type: 'actionNode',
+        position: { x: 500, y: 440 },
+        data: {
+          label: 'Enterprise Sales VIP',
+          action: 'Assign to Lead SDR, book priority demo, and notify Slack #sales-leads',
+          status: 'idle',
+        },
+      },
+      {
+        id: 'node-7',
+        type: 'actionNode',
+        position: { x: 740, y: 440 },
+        data: {
+          label: 'Self-Serve Onboarding',
+          action: 'Send automated email with documentation and free tier sign-up link',
+          status: 'idle',
+        },
+      },
+    ],
+    edges: [
+      {
+        id: 'edge-1-2',
+        source: 'node-1',
+        target: 'node-2',
+        sourceHandle: 'yes',
+        type: 'decisionEdge',
+        data: { branch: 'YES', status: 'idle' },
+      },
+      {
+        id: 'edge-1-3',
+        source: 'node-1',
+        target: 'node-3',
+        sourceHandle: 'no',
+        type: 'decisionEdge',
+        data: { branch: 'NO', status: 'idle' },
+      },
+      {
+        id: 'edge-2-4',
+        source: 'node-2',
+        target: 'node-4',
+        sourceHandle: 'yes',
+        type: 'decisionEdge',
+        data: { branch: 'YES', status: 'idle' },
+      },
+      {
+        id: 'edge-2-5',
+        source: 'node-2',
+        target: 'node-5',
+        sourceHandle: 'no',
+        type: 'decisionEdge',
+        data: { branch: 'NO', status: 'idle' },
+      },
+      {
+        id: 'edge-3-6',
+        source: 'node-3',
+        target: 'node-6',
+        sourceHandle: 'yes',
+        type: 'decisionEdge',
+        data: { branch: 'YES', status: 'idle' },
+      },
+      {
+        id: 'edge-3-7',
+        source: 'node-3',
+        target: 'node-7',
+        sourceHandle: 'no',
+        type: 'decisionEdge',
+        data: { branch: 'NO', status: 'idle' },
+      },
+    ],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'content-moderation',
+    name: 'Content Moderation & Spam Filter',
+    description: 'Screens user submitted text for toxic language, hate speech, and spam links.',
+    defaultInput: 'Check out this totally free money hack! Click here right now to claim $500 crypto giveaway instantly: http://bit.ly/scam-link',
+    nodes: [
+      {
+        id: 'cm-1',
+        type: 'decisionNode',
+        position: { x: 380, y: 50 },
+        data: {
+          label: 'Toxicity Detection',
+          prompt: 'Does this message contain toxic, aggressive, abusive, or hate speech?',
+          isStartNode: true,
+          status: 'idle',
+        },
+      },
+      {
+        id: 'cm-2',
+        type: 'actionNode',
+        position: { x: 120, y: 220 },
+        data: {
+          label: 'Immediate Ban',
+          action: 'Reject post, revoke posting permissions, and alert safety team',
+          status: 'idle',
+        },
+      },
+      {
+        id: 'cm-3',
+        type: 'decisionNode',
+        position: { x: 600, y: 220 },
+        data: {
+          label: 'Spam & Scam Filter',
+          prompt: 'Does this submission contain suspicious promotions, unsolicited spam, or phishing links?',
+          status: 'idle',
+        },
+      },
+      {
+        id: 'cm-4',
+        type: 'actionNode',
+        position: { x: 420, y: 400 },
+        data: {
+          label: 'Quarantine Queue',
+          action: 'Hide from public feed and queue for human moderator verification',
+          status: 'idle',
+        },
+      },
+      {
+        id: 'cm-5',
+        type: 'actionNode',
+        position: { x: 740, y: 400 },
+        data: {
+          label: 'Approve & Publish',
+          action: 'Publish content to live feed with standard visibility',
+          status: 'idle',
+        },
+      },
+    ],
+    edges: [
+      {
+        id: 'cm-edge-1-2',
+        source: 'cm-1',
+        target: 'cm-2',
+        sourceHandle: 'yes',
+        type: 'decisionEdge',
+        data: { branch: 'YES', status: 'idle' },
+      },
+      {
+        id: 'cm-edge-1-3',
+        source: 'cm-1',
+        target: 'cm-3',
+        sourceHandle: 'no',
+        type: 'decisionEdge',
+        data: { branch: 'NO', status: 'idle' },
+      },
+      {
+        id: 'cm-edge-3-4',
+        source: 'cm-3',
+        target: 'cm-4',
+        sourceHandle: 'yes',
+        type: 'decisionEdge',
+        data: { branch: 'YES', status: 'idle' },
+      },
+      {
+        id: 'cm-edge-3-5',
+        source: 'cm-3',
+        target: 'cm-5',
+        sourceHandle: 'no',
+        type: 'decisionEdge',
+        data: { branch: 'NO', status: 'idle' },
+      },
+    ],
+    updatedAt: new Date().toISOString(),
+  },
+];

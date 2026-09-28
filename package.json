@@ -4,14 +4,23 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "inngest:dev": "inngest dev -u http://localhost:3000/api/inngest",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@xyflow/react": "^12.12.0",
+    "canvas-confetti": "^1.9.4",
+    "clsx": "^2.1.1",
+    "inngest": "^4.21.0",
+    "lucide-react": "^1.48.0",
     "next": "16.3.6",
+    "openai": "^7.23.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,6 +29,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",
+    "inngest-cli": "^1.45.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
